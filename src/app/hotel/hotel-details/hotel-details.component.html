@@ -1,0 +1,70 @@
+<div mat-dialog-container>
+  <h1 mat-dialog-title>
+    Hotel Details - {{hotelId}}
+    <button type="button" class="close" (click)="onClose()">&times;</button>
+  </h1>
+  <div mat-dialog-content>
+    <ng-container *ngIf="!item">
+      <h5 style="text-align: center;">Record searching for Hotel Id {{hotelId}}</h5>
+    </ng-container>
+    <ng-container *ngIf="item">
+      <div class="row md-3">
+        <div class="col-lg-12 col-md-12">
+          <i class="material-icons">hotel</i>
+          {{item.hotelDTO.name}}
+          <bar-rating [(rate)]="item.hotelDTO.rating" [max]="5" [readOnly]="true"></bar-rating>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="row md-3">
+        <div class="col-lg-12 col-md-12">
+          <p class="h5"><b>Hotel Address & Contact Details</b></p>
+          <div class="row" *ngFor="let line of item.hotelDTO.address.lines">
+            <div class="col-lg-12 col-md-12">{{line}}</div>
+          </div>
+          <p>
+            {{item.hotelDTO.address.cityName}}<br>
+            {{item.hotelDTO.address.countryCode}} - {{item.hotelDTO.address.postalCode}}<br>
+            Phone {{item.hotelDTO.contact.phone}}<br>
+            Fax {{item.hotelDTO.contact.fax}}
+          </p>
+        </div>
+      </div>
+      <div class="row md-3">
+        <div class="col-lg-12 col-md-12">
+          <p class="h5"><b>Room Details & Price</b></p>
+          <div class="row" *ngFor="let offeres of item.offersDTO">
+            <p class="col-lg-12 col-md-12">
+              <b>Type :</b> {{offeres.room.typeEstimated.category}}<br>
+              <b>Bed Type :</b> {{offeres.room.typeEstimated.beds}} {{offeres.room.typeEstimated.bedType}}<br>
+              <b>Description :</b> {{offeres.room.description.text}}<br>
+              <b>Price :</b> {{offeres.price.total}} {{offeres.price.currency}}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row md-3">
+        <div class="col-lg-12 col-md-12">
+          <p class="h5"><b>Amenities</b></p>
+          <span *ngFor="let amenitie of item.hotelDTO.amenities; let index = index">
+            {{amenitie}}
+            <ng-container *ngIf="(index+1) < item.hotelDTO.amenities?.length"> , </ng-container>
+          </span>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-lg-12 col-md-12">
+          <p class="h5"><b>Hotel Image(s)</b></p>
+          <div class="row">
+            <div class="col-lg-3 col-md-3" *ngFor="let media of item.hotelDTO.media">
+              <img src="{{media.uri}}" class="img-thumbnail" alt="{{media.category}}">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        &nbsp;
+      </div>
+    </ng-container>
+  </div>
+</div>

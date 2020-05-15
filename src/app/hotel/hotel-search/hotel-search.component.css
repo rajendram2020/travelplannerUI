@@ -1,0 +1,8 @@
+.grid-box {
+  border: 2px solid #cccccc;
+}
+
+::ng-deep .cdk-overlay-pane {
+  /* Do you changes here */
+  min-width: 450px;
+}

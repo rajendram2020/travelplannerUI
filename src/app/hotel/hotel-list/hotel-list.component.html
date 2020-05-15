@@ -1,0 +1,54 @@
+<div class="main-content">
+  <div class="container-fluid">
+
+    <!-- if no record found -->
+    <div class="row" *ngIf="items?.length == 0">
+      <div class="col-md-12">
+        <h5 style="text-align: center;">No Data found</h5>
+      </div>
+    </div>
+
+    <!-- if record found -->
+    <div class="row mt-3" *ngFor="let item of items">
+      <div class="col-md-10">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">
+              <i class="material-icons">hotel</i>
+              {{item.hotelDTO.name}}
+            </h4>
+            <p class="card-category">
+              <bar-rating [(rate)]="item.hotelDTO.rating" [max]="5" [readOnly]="true"></bar-rating>
+            </p>
+          </div>
+          <div class="card-body">
+            <p class="h5"><b>Hotel Address & Contact Details</b></p>
+            <div class="row" *ngFor="let line of item.hotelDTO.address.lines">
+              <div class="col-lg-12 col-md-12">{{line}}</div>
+            </div>
+            <p>
+              {{item.hotelDTO.address.cityName}}<br>
+              {{item.hotelDTO.address.countryCode}} - {{item.hotelDTO.address.postalCode}}<br>
+              Phone {{item.hotelDTO.contact.phone}}<br>
+              Fax {{item.hotelDTO.contact.fax}}
+            </p>
+            <p class="h5"><b>Room Details & Price</b></p>
+            <div class="row" *ngFor="let offeres of item.offersDTO">
+              <p class="col-lg-12 col-md-12">
+                <b>Type :</b> {{offeres.room.typeEstimated.category}}<br>
+                <b>Bed Type :</b> {{offeres.room.typeEstimated.beds}} {{offeres.room.typeEstimated.bedType}}<br>
+                <b>Description :</b> {{offeres.room.description.text}}<br>
+                <b>Price :</b> {{offeres.price.total}} {{offeres.price.currency}}
+              </p>
+            </div>
+            <a href="javascript:void(0)" class="text-danger pull-right" (click)="showDetails(item.hotelDTO.hotelId)">
+              <b>More Details</b>
+            </a>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,168 @@
+<!--if open from tab control-->
+<table class="table" *ngIf="directOpen == false">
+  <tbody>
+    <tr>
+      <td>
+        <h4><b>Find your place to stay</b></h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <form [formGroup]="registerForm" autocomplete="off" novalidate (ngSubmit)="register(registerForm.value)">
+          <div class="row">
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="City Code" formControlName="cityCode" id="cityCode"
+                  [matAutocomplete]="cityLoction" oninput="this.value=this.value.toUpperCase()"
+                  (input)="fetchFilterData($event.target.value)">
+                <mat-autocomplete #cityLoction="matAutocomplete">
+                  <mat-option *ngFor="let item of filteredCityLocations| async" [value]="item.cityName">
+                    {{item.cityName}}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-hint align="left">City Code is required.</mat-hint>
+                <mat-error *ngIf="hasError('cityCode', 'required')">City Code is required</mat-error>
+                <mat-error *ngIf="hasError('cityCode', 'invalidAutocomplete')">Please enter value from
+                  suggested list.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput [max]="maxDate" [matDatepicker]="pickerFrom" placeholder="Check-in"
+                  formControlName="checkInDate" id="checkInDate" readonly (click)="pickerFrom.open()"
+                  (dateChange)="updateMinDate($event)">
+                <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFrom></mat-datepicker>
+                <mat-hint align="left">Check-in Date is required</mat-hint>
+                <mat-error *ngIf="hasError('checkInDate', 'required')">Check-in Date is required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput [min]="minDate" [matDatepicker]="pickerTo" placeholder="Check-out"
+                  formControlName="checkOutDate" id="checkOutDate" readonly (click)="pickerTo.open()"
+                  (dateChange)="updateMaxDate($event)">
+                <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                <mat-datepicker #pickerTo></mat-datepicker>
+                <mat-hint align="left">Check-out Date is required</mat-hint>
+                <mat-error *ngIf="hasError('checkOutDate', 'required')">Check-out Date is required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="Numbetr of Guest" formControlName="adults" id="adults">
+                <mat-hint align="left">Not more then 2 digits.</mat-hint>
+                <mat-error *ngIf="hasError('adults', 'required')">Guest is required</mat-error>
+                <mat-error *ngIf="hasError('adults', 'maxlength')">You have more than 2 digits</mat-error>
+                <mat-error *ngIf="hasError('adults', 'pattern')">Number of guests should be number</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="Numbetr of Rooms" formControlName="roomQuantity"
+                  id="roomQuantity">
+                <mat-hint align="left">Not more then 2 digits.</mat-hint>
+                <mat-error *ngIf="hasError('roomQuantity', 'required')">Room is required</mat-error>
+                <mat-error *ngIf="hasError('roomQuantity', 'maxlength')">You have more than 2 digits</mat-error>
+                <mat-error *ngIf="hasError('roomQuantity', 'pattern')">Number of rooms should be number</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button mat-raised-button color="primary" fxLayoutAlign="end" [disabled]="!registerForm.valid">
+              Search hotels
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+          <div class="clearfix"></div>
+        </form>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!--if open from href-->
+<div class="main-content" *ngIf="directOpen == true">
+  <div class="container-fluid">
+
+    <div class="card">
+      <div class="card-header card-header-rose">
+        <h4 class="card-title">Find your place to stay</h4>
+      </div>
+
+      <div class="card-body">
+        <form [formGroup]="registerForm" autocomplete="off" novalidate (ngSubmit)="register(registerForm.value)">
+          <div class="row">
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="City Code" formControlName="cityCode" id="cityCode"
+                  [matAutocomplete]="cityLoction" oninput="this.value=this.value.toUpperCase()"
+                  (input)="fetchFilterData($event.target.value)">
+                <mat-autocomplete #cityLoction="matAutocomplete">
+                  <mat-option *ngFor="let item of filteredCityLocations| async" [value]="item.cityName">
+                    {{item.cityName}}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-hint align="left">City Code is required.</mat-hint>
+                <mat-error *ngIf="hasError('cityCode', 'required')">City Code is required</mat-error>
+                <mat-error *ngIf="hasError('cityCode', 'invalidAutocomplete')">Please enter value from
+                  suggested list.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput [max]="maxDate" [matDatepicker]="pickerFrom" placeholder="Check-in"
+                  formControlName="checkInDate" id="checkInDate" readonly (click)="pickerFrom.open()"
+                  (dateChange)="updateMinDate($event)">
+                <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFrom></mat-datepicker>
+                <mat-hint align="left">Check-in Date is required</mat-hint>
+                <mat-error *ngIf="hasError('checkInDate', 'required')">Check-in Date is required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput [min]="minDate" [matDatepicker]="pickerTo" placeholder="Check-out"
+                  formControlName="checkOutDate" id="checkOutDate" readonly (click)="pickerTo.open()"
+                  (dateChange)="updateMaxDate($event)">
+                <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                <mat-datepicker #pickerTo></mat-datepicker>
+                <mat-hint align="left">Check-out Date is required</mat-hint>
+                <mat-error *ngIf="hasError('checkOutDate', 'required')">Check-out Date is required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="Numbetr of Guest" formControlName="adults" id="adults">
+                <mat-hint align="left">Not more then 2 digits.</mat-hint>
+                <mat-error *ngIf="hasError('adults', 'required')">Guest is required</mat-error>
+                <mat-error *ngIf="hasError('adults', 'maxlength')">You have more than 2 digits</mat-error>
+                <mat-error *ngIf="hasError('adults', 'pattern')">Number of guests should be number</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="Numbetr of Rooms" formControlName="roomQuantity"
+                  id="roomQuantity">
+                <mat-hint align="left">Not more then 2 digits.</mat-hint>
+                <mat-error *ngIf="hasError('roomQuantity', 'required')">Room is required</mat-error>
+                <mat-error *ngIf="hasError('roomQuantity', 'maxlength')">You have more than 2 digits</mat-error>
+                <mat-error *ngIf="hasError('roomQuantity', 'pattern')">Number of rooms should be number</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button mat-raised-button color="primary" fxLayoutAlign="end" [disabled]="!registerForm.valid">
+              Search hotels
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+          <div class="clearfix"></div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

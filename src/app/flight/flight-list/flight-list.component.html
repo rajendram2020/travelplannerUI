@@ -1,0 +1,46 @@
+<div class="main-content">
+  <div class="container-fluid">
+
+    <!-- if no record found -->
+    <div class="row" *ngIf="items?.length == 0">
+      <div class="col-md-12">
+        <h5 style="text-align: center;">No Data found</h5>
+      </div>
+    </div>
+
+    <!-- if record found -->
+    <div class="row mt-3" *ngFor="let item of items">
+      <div class="col-md-10">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">
+              <i class="material-icons">flight</i>
+              {{item.validatingAirlineCodes[0]}}
+            </h4>
+          </div>
+          <div class="card-body">
+            <b>Last Ticket Booked :</b> {{item.lastTicketingDate | date:'yyyy-MM-dd'}}<br>
+            <b>Number of Booked Seats :</b> {{item.numberOfBookableSeats}}<br>
+            <b>Price :</b> {{item.price.total}} {{item.price.currency}}<br>
+            <ng-container *ngFor="let itenarie of item.itineraries">
+              <div class="row" *ngFor="let segment of itenarie.segments">
+                <div class="col-lg-3 col-md-3">
+                  <b>Carrier Code & Number :</b> {{segment.carrierCode}} - {{segment.number}}
+                </div>
+                <div class="col-lg-2 col-md-2">
+                  <b>Number of Stops :</b> {{segment.numberOfStops}}
+                </div>
+                <div class="col-lg-5 col-md-5" style="vertical-align: top;">
+                  {{segment.depature.at | date:'yyyy-MM-dd hh:mm:ss'}} <b>(DEP.)</b>
+                  ->
+                  {{segment.arrival.at | date:'yyyy-MM-dd hh:mm:ss'}} <b>(AR.)</b>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

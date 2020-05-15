@@ -1,0 +1,9 @@
+.example-card {
+  max-width: 300px;
+  margin: 4px
+}
+
+.container {
+  min-height: 100%;
+  width: 100%;
+}

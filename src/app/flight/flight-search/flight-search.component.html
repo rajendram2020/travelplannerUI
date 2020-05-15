@@ -1,0 +1,228 @@
+<!--if open from tab control-->
+<table class="table" *ngIf="directOpen == false">
+  <tbody>
+    <tr>
+      <td>
+        <h4><b>Where to next?</b></h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <form [formGroup]="registerForm" autocomplete="off" novalidate (ngSubmit)="register(registerForm.value)">
+          <div class="row">
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="From Location" formControlName="originLocationCode"
+                  id="originLocationCode" [matAutocomplete]="orgLoctions" oninput="this.value=this.value.toUpperCase()"
+                  (input)="fetchFilterData(1,$event.target.value)">
+                <mat-autocomplete #orgLoctions="matAutocomplete">
+                  <mat-option *ngFor="let item of filteredOrgLocations| async" [value]="item.detailedName">
+                    {{item.detailedName}}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-hint align="left">From Location is required.</mat-hint>
+                <mat-error *ngIf="hasError('originLocationCode', 'required')">From location is required</mat-error>
+                <mat-error *ngIf="hasError('originLocationCode', 'invalidAutocomplete')">Please enter value from
+                  suggested list.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="To Location" formControlName="destinationLocationCode"
+                  id="destinationLocationCode" [matAutocomplete]="destLocations"
+                  oninput="this.value=this.value.toUpperCase()" (input)="fetchFilterData(2,$event.target.value)">
+                <mat-autocomplete #destLocations="matAutocomplete">
+                  <mat-option *ngFor="let item of filteredDestLocations| async" [value]="item.detailedName">
+                    {{item.detailedName}}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-hint align="left">To Location is required.</mat-hint>
+                <mat-error *ngIf="hasError('destinationLocationCode', 'required')">To location is required
+                </mat-error>
+                <mat-error *ngIf="hasError('destinationLocationCode', 'invalidAutocomplete')">Please enter value
+                  from
+                  suggested list.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput [max]="maxDate" [matDatepicker]="pickerFrom" placeholder="Depart Date"
+                  formControlName="departureDate" id="departureDate" readonly (click)="pickerFrom.open()"
+                  (dateChange)="updateMinDate($event)">
+                <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFrom></mat-datepicker>
+                <mat-hint align="left">Depart Date is required</mat-hint>
+                <mat-error *ngIf="hasError('departureDate', 'required')">Depart Date is required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput [min]="minDate" [matDatepicker]="pickerTo" placeholder="Return Date"
+                  formControlName="returnDate" id="returnDate" readonly (click)="pickerTo.open()"
+                  (dateChange)="updateMaxDate($event)">
+                <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                <mat-datepicker #pickerTo></mat-datepicker>
+                <mat-hint align="left">Return Date is required</mat-hint>
+                <mat-error *ngIf="hasError('returnDate', 'required')">Return Date is required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <mat-label>Cabin Class</mat-label>&nbsp;
+              <mat-radio-group formControlName="travelClass" id="travelClass">
+                <mat-radio-button *ngFor="let item of travelClasstType" [value]="item.value">
+                  {{item.option}}
+                  &nbsp;
+                </mat-radio-button>
+              </mat-radio-group>
+              <br>
+              <mat-hint align="left" class="mat-hint-style">Cabin Class is required</mat-hint>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width d-flex align-items-start">
+                <input matInput type="text" placeholder="Numbetr of Adults" formControlName="adults" id="adults">
+                <mat-hint align="left">Not more then 2 digits.</mat-hint>
+                <mat-error *ngIf="hasError('adults', 'required')">Guest is required</mat-error>
+                <mat-error *ngIf="hasError('adults', 'maxlength')">You have more than 2 digits</mat-error>
+                <mat-error *ngIf="hasError('adults', 'pattern')">Number of guests should be number</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width d-flex align-items-start">
+                <input matInput type="text" placeholder="Numbetr of Children" formControlName="children" id="children">
+                <mat-hint align="left">Not more then 2 digits.</mat-hint>
+                <mat-error *ngIf="hasError('children', 'required')">Children is required</mat-error>
+                <mat-error *ngIf="hasError('children', 'maxlength')">You have more than 2 digits</mat-error>
+                <mat-error *ngIf="hasError('children', 'pattern')">Number of children should be number</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button mat-raised-button color="primary" [disabled]="!registerForm.valid">
+              Search flights
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+          <div class="clearfix"></div>
+        </form>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!--if open from href-->
+<div class="main-content" *ngIf="directOpen == true">
+  <div class="container-fluid">
+
+    <div class="card">
+      <div class="card-header card-header-rose">
+        <h4 class="card-title">Where to next?</h4>
+      </div>
+
+      <div class="card-body">
+        <form [formGroup]="registerForm" autocomplete="off" novalidate (ngSubmit)="register(registerForm.value)">
+          <div class="row">
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="From Location" formControlName="originLocationCode"
+                  id="originLocationCode" [matAutocomplete]="orgLoctions" oninput="this.value=this.value.toUpperCase()"
+                  (input)="fetchFilterData(1,$event.target.value)">
+                <mat-autocomplete #orgLoctions="matAutocomplete">
+                  <mat-option *ngFor="let item of filteredOrgLocations| async" [value]="item.detailedName">
+                    {{item.detailedName}}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-hint align="left">From Location is required.</mat-hint>
+                <mat-error *ngIf="hasError('originLocationCode', 'required')">From location is required</mat-error>
+                <mat-error *ngIf="hasError('originLocationCode', 'invalidAutocomplete')">Please enter value from
+                  suggested list.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="To Location" formControlName="destinationLocationCode"
+                  id="destinationLocationCode" [matAutocomplete]="destLocations"
+                  oninput="this.value=this.value.toUpperCase()" (input)="fetchFilterData(2,$event.target.value)">
+                <mat-autocomplete #destLocations="matAutocomplete">
+                  <mat-option *ngFor="let item of filteredDestLocations| async" [value]="item.detailedName">
+                    {{item.detailedName}}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-hint align="left">To Location is required.</mat-hint>
+                <mat-error *ngIf="hasError('destinationLocationCode', 'required')">To location is required</mat-error>
+                <mat-error *ngIf="hasError('destinationLocationCode', 'invalidAutocomplete')">Please enter value from
+                  suggested list.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput [max]="maxDate" [matDatepicker]="pickerFrom" placeholder="Depart Date"
+                  formControlName="departureDate" id="departureDate" readonly (click)="pickerFrom.open()"
+                  (dateChange)="updateMinDate($event)">
+                <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFrom></mat-datepicker>
+                <mat-hint align="left">Depart Date is required</mat-hint>
+                <mat-error *ngIf="hasError('departureDate', 'required')">Depart Date is required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width">
+                <input matInput [min]="minDate" [matDatepicker]="pickerTo" placeholder="Return Date"
+                  formControlName="returnDate" id="returnDate" readonly (click)="pickerTo.open()"
+                  (dateChange)="updateMaxDate($event)">
+                <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                <mat-datepicker #pickerTo></mat-datepicker>
+                <mat-hint align="left">Return Date is required</mat-hint>
+                <mat-error *ngIf="hasError('returnDate', 'required')">Return Date is required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <mat-label>Cabin Class</mat-label>&nbsp;
+              <mat-radio-group formControlName="travelClass" id="travelClass">
+                <mat-radio-button *ngFor="let item of travelClasstType" [value]="item.value">
+                  {{item.option}}
+                  &nbsp;
+                </mat-radio-button>
+              </mat-radio-group>
+              <br>
+              <mat-hint align="left" class="mat-hint-style">Cabin Class is required</mat-hint>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width d-flex align-items-start">
+                <input matInput type="text" placeholder="Numbetr of Adults" formControlName="adults" id="adults">
+                <mat-hint align="left">Not more then 2 digits.</mat-hint>
+                <mat-error *ngIf="hasError('adults', 'required')">Guest is required</mat-error>
+                <mat-error *ngIf="hasError('adults', 'maxlength')">You have more than 2 digits</mat-error>
+                <mat-error *ngIf="hasError('adults', 'pattern')">Number of guests should be number</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width d-flex align-items-start">
+                <input matInput type="text" placeholder="Numbetr of Children" formControlName="children" id="children">
+                <mat-hint align="left">Not more then 2 digits.</mat-hint>
+                <mat-error *ngIf="hasError('children', 'required')">Children is required</mat-error>
+                <mat-error *ngIf="hasError('children', 'maxlength')">You have more than 2 digits</mat-error>
+                <mat-error *ngIf="hasError('children', 'pattern')">Number of children should be number</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button mat-raised-button color="primary" [disabled]="!registerForm.valid">
+              Search flights
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+          <div class="clearfix"></div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

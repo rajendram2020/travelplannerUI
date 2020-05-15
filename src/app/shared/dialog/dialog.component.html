@@ -1,0 +1,26 @@
+<div mat-dialog-container>
+  <h1 mat-dialog-title>
+    {{title}}
+    <button type="button" class="close" (click)="onClose()">&times;</button>
+  </h1>
+  <div mat-dialog-content>
+    <p>{{message}}</p>
+  </div>
+  <div mat-dialog-actions>
+    <div *ngIf="button==0">
+      <button mat-button color="primary" (click)="onOk()" tabindex="-1">Ok</button>
+    </div>
+    <div *ngIf="button==1">
+      <button mat-button color="primary" (click)="onOk()" tabindex="-1">Ok</button>
+      <button mat-button color="warn" (click)="onCancel()" tabindex="-1">Cancel</button>
+    </div>
+    <div *ngIf="button==2">
+      <button mat-button color="primary" (click)="onYes()" tabindex="-1">Yes</button>
+      <button mat-button color="warn" (click)="onNo()" tabindex="-1">No</button>
+    </div>
+    <div *ngIf="button==3">
+      <button mat-button color="primary" (click)="onAccept()" tabindex="-1">Accept</button>
+      <button mat-button color="warn" (click)="onReject()" tabindex="-1">Reject</button>
+    </div>
+  </div>
+</div>

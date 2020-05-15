@@ -1,0 +1,79 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">flight</i>
+                        </div>
+                        <p class="card-category">&nbsp;</p>
+                        <p class="card-title">Flight Search</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <a href="javascript:void(0)" routerLink="/flight/search" class="text-danger">
+                                <h5>Search flight for safe journey</h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">hotel</i>
+                        </div>
+                        <p class="card-category">&nbsp;</p>
+                        <p class="card-title">Hotel Search</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <a href="javascript:void(0)" routerLink="/hotel/search" class="text-danger">
+                                <h5>Search hotels for luxary stay</h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-primary">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <span class="nav-tabs-title">Search:</span>
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link active" href="#flightSearch" data-toggle="tab">
+                                            <i class="material-icons">flight</i> Flight
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#hotelSearch" data-toggle="tab">
+                                            <i class="material-icons">hotel</i> Hotel
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="flightSearch">
+                                <app-flight-search [directOpen]="false"></app-flight-search>
+                            </div>
+                            <div class="tab-pane" id="hotelSearch">
+                                <app-hotel-search [directOpen]="false"></app-hotel-search>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
